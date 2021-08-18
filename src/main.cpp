@@ -1,21 +1,26 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <string>
+#include <sstream>
+
+
+std::string readFile(std::ifstream& file) {
+    std::stringstream ss;
+    ss << file.rdbuf();
+    return ss.str();
+}
 
 int main(){
   std::cout << "File viewer" << std::endl;
   std::ifstream file;
-  char text[50];
   int count = 0;
 
   file.open("..\\src\\File\\words.txt");
   if(file.is_open()){
-    file.read((char*)text, sizeof(text));
-    std::cout << file.gcount() << std::endl;
-
-    while (text[count] != ' '){
-      std::cout << text[count];
-      count++;
-    }
+    while(!file.eof()){
+      std::cout << readFile(file);
+      }
   }else {
     std::cout << "This file could not be opened" << std::endl;
   }
