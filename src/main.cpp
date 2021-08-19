@@ -1,26 +1,21 @@
 #include <iostream>
 #include <fstream>
-#include <vector>
-#include <string>
-#include <sstream>
-
-
-std::string readFile(std::ifstream& file) {
-    std::stringstream ss;
-    ss << file.rdbuf();
-    return ss.str();
-}
 
 int main(){
   std::cout << "File viewer" << std::endl;
   std::ifstream file;
+  char buffer[16];
+
   int count = 0;
 
-  file.open("..\\src\\File\\words.txt");
+  file.open("..\\src\\File\\words.txt", std::ios::binary);
   if(file.is_open()){
     while(!file.eof()){
-      std::cout << readFile(file);
+      file.read(buffer, sizeof(buffer) - 1);
+      buffer[file.gcount()] = 0;
+      std::cout << buffer;
       }
+    file.close();
   }else {
     std::cout << "This file could not be opened" << std::endl;
   }
